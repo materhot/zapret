@@ -1,7 +1,6 @@
 FROM alpine:latest
-# Đã thêm zlib-dev vào danh sách cài đặt
-RUN apk add --no-cache git make gcc musl-dev linux-headers iptables bsd-compat-headers libcap-dev zlib-dev
+RUN apk add --no-cache git make gcc musl-dev linux-headers iptables bsd-compat-headers libcap-dev zlib-dev libnetfilter_queue-dev
 RUN git clone --depth=1 https://github.com/bol-van/zapret.git /zapret
 WORKDIR /zapret
-RUN make -C tpws
-CMD ["/zapret/tpws/tpws", "--user=nobody", "--port=1080", "--bind-addr=0.0.0.0", "--split-pos=2"]
+RUN make -C nfqws
+CMD ["/zapret/nfqws/nfqws", "--user=nobody", "--qnum=200", "--hostlist=/zapret/autohostlist.txt", "--desync=split2"]
